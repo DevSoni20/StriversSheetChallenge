@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+long fun(int i, int target, int *a, vector<vector<long>>&dp)
+{
+    if(i == 0)
+    {
+        return (target%a[i] == 0);
+    }
+    if(dp[i][target] != -1)
+    {
+        return dp[i][target];
+    }
+    long notTake = fun(i-1, target, a, dp);
+    long Take = 0;
+    if(a[i] <= target)
+    {
+        Take = fun(i, target-a[i], a, dp);
+    }
+    return dp[i][target] = Take+notTake;
+}
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    //Write your code here
+    vector<vector<long>>dp(n, vector<long>(value+1, -1));
+    return fun(n-1, value, denominations, dp);
+}
